@@ -14,3 +14,9 @@ A few resources to get you started if this is your first Flutter project:
 For help getting started with Flutter development, view the
 [online documentation](https://docs.flutter.dev/), which offers tutorials,
 samples, guidance on mobile development, and a full API reference.
+
+# Envs
+
+# Dev
+1. Please, copy .env.template file and rename to .env
+2. Changes environments variables - TheMovieDB (https://www.themoviedb.org).
