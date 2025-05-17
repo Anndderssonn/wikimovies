@@ -1,13 +1,13 @@
 import 'package:wiki_movies/infrastructure/models/themoviedb/movie_themoviedb.dart';
 
-class TheMovieDbResponse {
+class TheMovieDBResponse {
   final Dates? dates;
   final int page;
   final List<MovieTheMovieDB> results;
   final int totalPages;
   final int totalResults;
 
-  TheMovieDbResponse({
+  TheMovieDBResponse({
     required this.dates,
     required this.page,
     required this.results,
@@ -15,8 +15,8 @@ class TheMovieDbResponse {
     required this.totalResults,
   });
 
-  factory TheMovieDbResponse.fromJson(Map<String, dynamic> json) =>
-      TheMovieDbResponse(
+  factory TheMovieDBResponse.fromJson(Map<String, dynamic> json) =>
+      TheMovieDBResponse(
         dates: json["dates"] ? Dates.fromJson(json["dates"]) : null,
         page: json["page"],
         results: List<MovieTheMovieDB>.from(

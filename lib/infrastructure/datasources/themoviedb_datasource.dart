@@ -2,6 +2,8 @@ import 'package:dio/dio.dart';
 import 'package:wiki_movies/config/constants/environments.dart';
 import 'package:wiki_movies/domain/datasources/movies_datasource.dart';
 import 'package:wiki_movies/domain/entities/movie.dart';
+import 'package:wiki_movies/infrastructure/mappers/themoviedb/movie_mapper.dart';
+import 'package:wiki_movies/infrastructure/models/themoviedb/themoviedb_response.dart';
 
 class TheMovieDBDatasource extends MoviesDatasource {
   final dio = Dio(
@@ -16,8 +18,13 @@ class TheMovieDBDatasource extends MoviesDatasource {
 
   @override
   Future<List<Movie>> getFilmsInTheaters({int page = 1}) async {
-    final response = dio.get('/movie/now_playing');
-    final List<Movie> movies = [];
+    final response = await dio.get('/movie/now_playing');
+    final theMovieDBResponse = TheMovieDBResponse.fromJson(response.data);
+    final List<Movie> movies =
+        theMovieDBResponse.results
+            .where((theMovieDB) => theMovieDB.posterPath != 'no-poster')
+            .map((theMovieDB) => MovieMapper.theMovieDBToEntity(theMovieDB))
+            .toList();
     return movies;
   }
 }
