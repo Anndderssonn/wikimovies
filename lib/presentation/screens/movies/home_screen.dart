@@ -36,17 +36,52 @@ class _HomeViewState extends ConsumerState<_HomeView> {
     final filmsInTheaters = ref.watch(filmsInTheatersProvider);
     final slideShowFilms = ref.watch(moviesSlideshowProvider);
 
-    return Column(
-      children: [
-        CustomAppbar(),
-        MoviesSlideshow(movies: slideShowFilms),
-        MoviesHorizontalListview(
-          movies: filmsInTheaters,
-          title: 'In Theaters',
-          subTitle: 'Friday 20th',
-          loadNextPage: () {
-            ref.read(filmsInTheatersProvider.notifier).loadNextPage();
-          },
+    return CustomScrollView(
+      slivers: [
+        const SliverAppBar(
+          floating: true,
+          flexibleSpace: FlexibleSpaceBar(title: CustomAppbar()),
+        ),
+        SliverList(
+          delegate: SliverChildBuilderDelegate((context, index) {
+            return Column(
+              children: [
+                MoviesSlideshow(movies: slideShowFilms),
+                MoviesHorizontalListview(
+                  movies: filmsInTheaters,
+                  title: 'In Theaters',
+                  subTitle: 'Friday 20th',
+                  loadNextPage: () {
+                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                  },
+                ),
+                MoviesHorizontalListview(
+                  movies: filmsInTheaters,
+                  title: 'Coming soon',
+                  subTitle: 'This month',
+                  loadNextPage: () {
+                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                  },
+                ),
+                MoviesHorizontalListview(
+                  movies: filmsInTheaters,
+                  title: 'Always acclaimed',
+                  loadNextPage: () {
+                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                  },
+                ),
+                MoviesHorizontalListview(
+                  movies: filmsInTheaters,
+                  title: 'Top Rated',
+                  subTitle: 'Of all times',
+                  loadNextPage: () {
+                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                  },
+                ),
+                const SizedBox(height: 10),
+              ],
+            );
+          }, childCount: 1),
         ),
       ],
     );
