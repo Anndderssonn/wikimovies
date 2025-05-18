@@ -1,4 +1,4 @@
-import 'package:wiki_movies/infrastructure/models/themoviedb/movie_themoviedb.dart';
+import 'package:wiki_movies/infrastructure/models/models.dart';
 
 class TheMovieDBResponse {
   final Dates? dates;
