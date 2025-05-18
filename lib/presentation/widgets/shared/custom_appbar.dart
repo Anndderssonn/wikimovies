@@ -20,7 +20,10 @@ class CustomAppbar extends StatelessWidget {
               const SizedBox(width: 5),
               Text('WikiFilms', style: titleStyle),
               const Spacer(),
-              IconButton(onPressed: () {}, icon: Icon(Icons.search)),
+              IconButton(
+                onPressed: () {},
+                icon: Icon(Icons.search, color: colors.primary),
+              ),
             ],
           ),
         ),

@@ -46,7 +46,7 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 380,
+      height: 360,
       child: Column(
         children: [
           if (widget.title != null || widget.subTitle != null)
@@ -58,7 +58,7 @@ class _MoviesHorizontalListviewState extends State<MoviesHorizontalListview> {
               scrollDirection: Axis.horizontal,
               physics: const BouncingScrollPhysics(),
               itemBuilder: (context, index) {
-                return _Slide(movie: widget.movies[index]);
+                return FadeInRight(child: _Slide(movie: widget.movies[index]));
               },
             ),
           ),

@@ -29,12 +29,20 @@ class _HomeViewState extends ConsumerState<_HomeView> {
   void initState() {
     super.initState();
     ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+    ref.read(upcomingFilmsProvider.notifier).loadNextPage();
+    ref.read(popularFilmsProvider.notifier).loadNextPage();
+    ref.read(topRatedFilmsProvider.notifier).loadNextPage();
   }
 
   @override
   Widget build(BuildContext context) {
-    final filmsInTheaters = ref.watch(filmsInTheatersProvider);
+    final initialLoading = ref.watch(initialLoadingProvider);
+    if (initialLoading) return const FullScreenLoader();
     final slideShowFilms = ref.watch(moviesSlideshowProvider);
+    final filmsInTheaters = ref.watch(filmsInTheatersProvider);
+    final upcomingFilms = ref.watch(upcomingFilmsProvider);
+    final popularFilms = ref.watch(popularFilmsProvider);
+    final topRatedFilms = ref.watch(topRatedFilmsProvider);
 
     return CustomScrollView(
       slivers: [
@@ -56,26 +64,26 @@ class _HomeViewState extends ConsumerState<_HomeView> {
                   },
                 ),
                 MoviesHorizontalListview(
-                  movies: filmsInTheaters,
-                  title: 'Coming soon',
+                  movies: upcomingFilms,
+                  title: 'Coming Soon',
                   subTitle: 'This month',
                   loadNextPage: () {
-                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                    ref.read(upcomingFilmsProvider.notifier).loadNextPage();
                   },
                 ),
                 MoviesHorizontalListview(
-                  movies: filmsInTheaters,
-                  title: 'Always acclaimed',
+                  movies: popularFilms,
+                  title: 'Always Acclaimed',
                   loadNextPage: () {
-                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                    ref.read(popularFilmsProvider.notifier).loadNextPage();
                   },
                 ),
                 MoviesHorizontalListview(
-                  movies: filmsInTheaters,
+                  movies: topRatedFilms,
                   title: 'Top Rated',
                   subTitle: 'Of all times',
                   loadNextPage: () {
-                    ref.read(filmsInTheatersProvider.notifier).loadNextPage();
+                    ref.read(topRatedFilmsProvider.notifier).loadNextPage();
                   },
                 ),
                 const SizedBox(height: 10),
