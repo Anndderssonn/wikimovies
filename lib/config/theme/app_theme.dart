@@ -22,6 +22,10 @@ class AppTheme {
         labelLarge: GoogleFonts.montserrat(color: Colors.grey[200]),
         titleSmall: GoogleFonts.montserrat(color: Colors.grey[200]),
         bodySmall: GoogleFonts.montserrat(color: Colors.grey[200]),
+        labelMedium: GoogleFonts.montserrat(
+          fontWeight: FontWeight.bold,
+          color: Colors.grey[200],
+        ),
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:wiki_movies/domain/entities/movie.dart';
 import 'package:wiki_movies/presentation/providers/providers.dart';
 
@@ -19,6 +20,7 @@ class MovieDetailScreenState extends ConsumerState<MovieDetailScreen> {
   void initState() {
     super.initState();
     ref.read(movieDetailProvider.notifier).loadMovie(widget.movieID);
+    ref.read(actorsByMovieProvider.notifier).loadActorsByMovie(widget.movieID);
   }
 
   @override
@@ -102,7 +104,8 @@ class _MovieDetail extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 100),
+        _MovieCast(movieID: movie.id.toString()),
+        const SizedBox(height: 50),
       ],
     );
   }
@@ -126,7 +129,14 @@ class _CustomSliverAppBar extends StatelessWidget {
         background: Stack(
           children: [
             SizedBox.expand(
-              child: Image.network(movie.posterPath, fit: BoxFit.cover),
+              child: Image.network(
+                movie.posterPath,
+                fit: BoxFit.cover,
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress != null) return const SizedBox();
+                  return FadeIn(child: child);
+                },
+              ),
             ),
             const SizedBox.expand(
               child: DecoratedBox(
@@ -153,6 +163,58 @@ class _CustomSliverAppBar extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _MovieCast extends ConsumerWidget {
+  final String movieID;
+
+  const _MovieCast({required this.movieID});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final textStyle = Theme.of(context).textTheme;
+    final actorsByMovie = ref.watch(actorsByMovieProvider)[movieID];
+
+    if (actorsByMovie == null) {
+      return const CircularProgressIndicator(strokeWidth: 2);
+    }
+    return SizedBox(
+      height: 300,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: actorsByMovie.length,
+        itemBuilder: (context, index) {
+          final actor = actorsByMovie[index];
+          return Container(
+            padding: const EdgeInsets.all(8.0),
+            width: 135,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: Image.network(
+                    actor.profilePath,
+                    height: 180,
+                    width: 135,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(actor.name, maxLines: 2),
+                Text(
+                  actor.character ?? 'Unknown',
+                  maxLines: 2,
+                  style: textStyle.labelMedium,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
