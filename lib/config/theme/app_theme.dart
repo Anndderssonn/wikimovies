@@ -10,7 +10,10 @@ class AppTheme {
       colorSchemeSeed: seedColor,
       scaffoldBackgroundColor: backgroundColor,
       textTheme: GoogleFonts.montserratTextTheme().copyWith(
-        bodyLarge: GoogleFonts.montserrat(color: Colors.grey[200]),
+        bodyLarge: GoogleFonts.montserrat(
+          color: Colors.grey[200],
+          fontWeight: FontWeight.bold,
+        ),
         bodyMedium: GoogleFonts.montserrat(color: Colors.grey[200]),
         titleLarge: GoogleFonts.montserrat(
           fontSize: 22,
