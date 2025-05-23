@@ -20,3 +20,7 @@ samples, guidance on mobile development, and a full API reference.
 # Dev
 1. Please, copy .env.template file and rename to .env
 2. Changes environments variables - TheMovieDB (https://www.themoviedb.org).
+3. If you need to make changes in the entity, you have to run the following command.
+```
+flutter pub run build_runner build
+```
