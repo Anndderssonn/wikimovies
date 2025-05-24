@@ -51,7 +51,7 @@ class _VideosList extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 10),
-          child: Text('Videos', style: textStyles.bodyMedium),
+          child: Text('Videos', style: textStyles.titleLarge),
         ),
         _YoutubeVideoPlayer(
           youtubeID: videos.first.youtubeKey,
@@ -102,11 +102,16 @@ class __YoutubeVideoPlayerState extends State<_YoutubeVideoPlayer> {
 
   @override
   Widget build(BuildContext context) {
+    final textStyles = Theme.of(context).textTheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: [Text(widget.name), YoutubePlayer(controller: _controller)],
+        children: [
+          Text(widget.name, style: textStyles.bodySmall),
+          YoutubePlayer(controller: _controller),
+        ],
       ),
     );
   }

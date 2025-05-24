@@ -66,9 +66,10 @@ class _MovieDetail extends StatelessWidget {
     return Column(
       children: [
         _TitleAndOverview(movie: movie, size: size, textStyles: textStyle),
-        _Genres(movie: movie),
+        _Genres(movie: movie, colors: colors),
         CastByMovie(movieID: movie.id.toString()),
         VideosFromMovie(movieID: movie.id),
+        const SizedBox(height: 30),
         SimilarMovies(movieID: movie.id),
       ],
     );
@@ -77,8 +78,9 @@ class _MovieDetail extends StatelessWidget {
 
 class _Genres extends StatelessWidget {
   final Movie movie;
+  final ColorScheme colors;
 
-  const _Genres({required this.movie});
+  const _Genres({required this.movie, required this.colors});
 
   @override
   Widget build(BuildContext context) {
@@ -94,6 +96,7 @@ class _Genres extends StatelessWidget {
               (gender) => Container(
                 margin: const EdgeInsets.only(right: 10),
                 child: Chip(
+                  backgroundColor: colors.errorContainer,
                   label: Text(gender),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20),
@@ -136,12 +139,15 @@ class _TitleAndOverview extends StatelessWidget {
             child: Column(
               children: [
                 Text(movie.title, style: textStyles.titleLarge),
-                Text(movie.overview, style: textStyles.bodyMedium),
+                Text(movie.overview, style: textStyles.labelLarge),
                 const SizedBox(height: 10),
-                MovieRating(voteAverage: movie.voteAverage),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: MovieRating(voteAverage: movie.voteAverage),
+                ),
                 Row(
                   children: [
-                    const Text('Premiere'),
+                    const Text('Premiere:'),
                     const SizedBox(width: 5),
                     Text(HumanFormat.shortDate(movie.releaseDate)),
                   ],
