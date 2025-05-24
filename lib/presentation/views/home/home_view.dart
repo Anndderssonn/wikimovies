@@ -27,7 +27,6 @@ class HomeViewState extends ConsumerState<HomeView> {
     final slideShowFilms = ref.watch(moviesSlideshowProvider);
     final filmsInTheaters = ref.watch(filmsInTheatersProvider);
     final upcomingFilms = ref.watch(upcomingFilmsProvider);
-    final popularFilms = ref.watch(popularFilmsProvider);
     final topRatedFilms = ref.watch(topRatedFilmsProvider);
 
     return CustomScrollView(

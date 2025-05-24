@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:wiki_movies/config/constants/environments.dart';
 import 'package:wiki_movies/domain/datasources/movies_datasource.dart';
-import 'package:wiki_movies/domain/entities/movie.dart';
-import 'package:wiki_movies/infrastructure/mappers/themoviedb/movie_mapper.dart';
+import 'package:wiki_movies/domain/entities/entities.dart';
+import 'package:wiki_movies/infrastructure/mappers/mappers.dart';
 import 'package:wiki_movies/infrastructure/models/models.dart';
 
 class TheMovieDBDatasource extends MoviesDatasource {
@@ -81,5 +81,27 @@ class TheMovieDBDatasource extends MoviesDatasource {
       queryParameters: {'query': query},
     );
     return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Movie>> getSimilarMovies(int movieID) async {
+    final response = await dio.get('/movie/$movieID/similar');
+    return _jsonToMovies(response.data);
+  }
+
+  @override
+  Future<List<Video>> getYoutubeVideosByID(int movieID) async {
+    final resposne = await dio.get('/movie/$movieID/videos');
+    final theMovieDBVideosResponse = MoviedbVideosResponse.fromJson(
+      resposne.data,
+    );
+    final videos = <Video>[];
+    for (var theMovieDBVideo in theMovieDBVideosResponse.results) {
+      if (theMovieDBVideo.site == 'YouTube') {
+        final video = VideoMapper.theMovieDBVideoToEntity(theMovieDBVideo);
+        videos.add(video);
+      }
+    }
+    return videos;
   }
 }
